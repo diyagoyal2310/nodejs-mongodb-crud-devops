@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const methodOverride = require("method-override");
@@ -18,7 +19,7 @@ main()
     console.log(err);
   });
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/whatsap");
+  await mongoose.connect(process.env.MONGODB_URI);
 }
 app.post("/chats/new", async (req, res) => {
   try {
@@ -86,6 +87,8 @@ app.get("/chats", async (req, res) => {
 
   res.render("index.ejs", { data });
 });
-app.listen(8000, () => {
-  console.log("server listening succesfully");
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`server listening successfully on port ${PORT}`);
 });
